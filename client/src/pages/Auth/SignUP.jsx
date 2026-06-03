@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Input from "../../components/inputs/Input";
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
 import { validateEmail } from '../../utils/helper';
+import { UserContext } from '../../context/userContext';
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATHS } from '../../utils/apiPaths';
+import uploadImage from "../../utils/uploadImage";
 
 const SignUP = ({ setCurrentPage }) => {
 
@@ -11,7 +15,8 @@ const SignUP = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   // Handle SignUp Form Submit
@@ -25,7 +30,7 @@ const SignUP = ({ setCurrentPage }) => {
       return;
     }
 
-    if(!validateEmail){
+    if(!validateEmail(email)){
       setError("Please Enter a valid email address.");
       return;
     }
@@ -43,12 +48,31 @@ const SignUP = ({ setCurrentPage }) => {
 
     try {
 
-      console.log({
+      //Upload image if present
+      if(profilePic){
+        const imageUploadRea = await uploadImage(profilePic);
+        profileImageUrl = imageUploadRea.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER,{
+        name: fullName,
         email,
         password,
+        profileImageUrl,
       });
 
-      // navigate("/dashboard");
+      const { token } = response.data;
+
+      if(token){
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+        navigate("/dashboard");
+        
+      }
+
+      
+
+      
 
     } catch (error) {
 

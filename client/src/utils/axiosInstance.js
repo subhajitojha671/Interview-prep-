@@ -2,9 +2,9 @@ import axios from "axios";
 import { BASE_URL } from "./apiPaths";
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL, // Correct: baseURL
+  baseURL: BASE_URL,
   timeout: 80000,
-  headers: { // Correct: headers (small h)
+  headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
@@ -32,12 +32,16 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Handle common errors globally
     if (error.response) {
-      if (error.response.status === 401) {
-        // Redirect to login page
+      const status = error.response.status;
+
+      // Redirect only if user was already logged in
+      if (status === 401 && localStorage.getItem("token")) {
+        localStorage.removeItem("token");
         window.location.href = "/";
-      } else if (error.response.status === 500) {
+      }
+
+      if (status === 500) {
         console.error("Server error. Please try again later.");
       }
     } else if (error.code === "ECONNABORTED") {

@@ -6,11 +6,13 @@ import SignUP from './pages/Auth/SignUP';
 import Dashboard from './pages/Home/Dashboard';
 import InterviewPrep from './pages/InterviewPrep/InterviewPrep';
 import LandingPage from "./pages/LandingPage";
+import UserProvider from './context/userContext';
 
 
 const App = () => {
   return (
-    <div>
+    <UserProvider>
+      <div>
       <Router>
         <Routes>
           {/* Default Routes  */}
@@ -34,6 +36,8 @@ const App = () => {
       />
       
     </div>
+    </UserProvider>
+    
   )
 }
 
