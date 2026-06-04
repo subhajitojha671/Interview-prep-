@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
+import { LuLogOut } from "react-icons/lu";
 
 const ProfileInfoCard = () => {
   const { user, clearUser } = useContext(UserContext);
@@ -12,29 +13,30 @@ const ProfileInfoCard = () => {
     navigate("/");
   };
 
+  if (!user) return null;
+
   return (
-    user && (
-    <div className="flex items-center">
+    <div className="flex items-center gap-3">
       <img
-        src={user?.profileImageUrl || ""}
+        src={user?.profileImageUrl}
         alt="Profile"
-        className="w-11 h-11 bg-gray-300 rounded-full mr-3 object-cover"
+        className="w-11 h-11 rounded-full object-cover border-2 border-gray-200"
       />
 
-      <div>
-        <div className="text-[15px] text-black font-bold">
-          {user?.name || ""}
-        </div>
+      <div className="hidden sm:block">
+        <h3 className="text-sm font-semibold text-gray-900">
+          {user?.name}
+        </h3>
 
         <button
-          className="text-amber-600 text-sm font-semibold cursor-pointer hover:underline"
           onClick={handleLogout}
+          className="flex items-center gap-1 text-xs text-orange-500 hover:text-orange-700 hover:underline font-medium cursor-pointer transition-colors"
         >
+          <LuLogOut size={14} />
           Logout
         </button>
       </div>
     </div>
-    )
   );
 };
 
