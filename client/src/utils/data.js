@@ -1,43 +1,43 @@
 export const CARD_BG = [
   {
     id: 1,
-    bgcolor: "linear-gradient(135deg, #e6f8f3 0%, #f7fcfa 100%)",
+    bgcolor: "linear-gradient(135deg, #cfeee3 0%, #e9f7f1 100%)",
   },
   {
     id: 2,
-    bgcolor: "linear-gradient(135deg, #fef9e7 0%, #fffdf4 100%)",
+    bgcolor: "linear-gradient(135deg, #f7edbf 0%, #fcf6dc 100%)",
   },
   {
     id: 3,
-    bgcolor: "linear-gradient(135deg, #eaf7ff 0%, #f3fbff 100%)",
+    bgcolor: "linear-gradient(135deg, #d2ebfa 0%, #e7f6fd 100%)",
   },
   {
     id: 4,
-    bgcolor: "linear-gradient(135deg, #fff2e9 0%, #fff8f3 100%)",
+    bgcolor: "linear-gradient(135deg, #f7dcc8 0%, #fcecdf 100%)",
   },
   {
     id: 5,
-    bgcolor: "linear-gradient(135deg, #e7f6fe 0%, #f4fafd 100%)",
+    bgcolor: "linear-gradient(135deg, #d3eefc 0%, #e8f6fb 100%)",
   },
   {
     id: 6,
-    bgcolor: "linear-gradient(135deg, #f5f5f5 0%, #fbfbfb 100%)",
+    bgcolor: "linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%)",
   },
   {
     id: 7,
-    bgcolor: "linear-gradient(135deg, #fff4fc 0%, #fff8fd 100%)",
+    bgcolor: "linear-gradient(135deg, #f9dcef 0%, #fdeef7 100%)",
   },
   {
     id: 8,
-    bgcolor: "linear-gradient(135deg, #e8fef3 0%, #f5fef8 100%)",
+    bgcolor: "linear-gradient(135deg, #d1f7e3 0%, #e9fbf1 100%)",
   },
   {
     id: 9,
-    bgcolor: "linear-gradient(135deg, #f0ecff 0%, #f7f5ff 100%)",
+    bgcolor: "linear-gradient(135deg, #ddd5ff 0%, #eee9ff 100%)",
   },
   {
     id: 10,
-    bgcolor: "linear-gradient(135deg, #fef2f2 0%, #fff8f8 100%)",
+    bgcolor: "linear-gradient(135deg, #f8d7d7 0%, #fceaea 100%)",
   },
 ];
 

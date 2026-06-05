@@ -76,7 +76,7 @@ const Login = ({ setCurrentPage }) => {
         <Input
           label="Email"
           value={email}
-          onChange={setEmail}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="john@example.com"
           type="email"
         />
@@ -84,7 +84,7 @@ const Login = ({ setCurrentPage }) => {
         <Input
           label="Password"
           value={password}
-          onChange={setPassword}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Min 8 Characters"
           type="password"
         />

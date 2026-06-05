@@ -108,7 +108,7 @@ const SignUP = ({ setCurrentPage }) => {
 
           <Input
             value={fullName}
-            onChange={setFullName}
+            onChange={(e) => setFullName(e.target.value)}
             label="Full Name"
             placeholder="John Doe"
             type="text"
@@ -116,7 +116,7 @@ const SignUP = ({ setCurrentPage }) => {
 
           <Input
             value={email}
-            onChange={setEmail}
+            onChange={(e) => setEmail(e.target.value)}
             label="Email Address"
             placeholder="doe@example.com"
             type="email"
@@ -124,7 +124,7 @@ const SignUP = ({ setCurrentPage }) => {
 
           <Input
             value={password}
-            onChange={setPassword}
+            onChange={(e) => setPassword(e.target.value)}
             label="Password"
             placeholder="Min 8 Characters"
             type="password"

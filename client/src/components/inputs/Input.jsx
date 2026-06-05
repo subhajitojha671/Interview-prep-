@@ -37,7 +37,7 @@ const Input = ({
           placeholder={placeholder}
           className="w-full bg-transparent outline-none"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
           required
         />
 
