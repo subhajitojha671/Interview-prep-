@@ -12,12 +12,12 @@ export const API_PATHS = {
   },
 
   AI: {
-    GENERATE_QUESTION: "/api/ai/generate-question",
+    GENERATE_QUESTIONS: "/api/ai/generate-questions",
     GENERATE_EXPLANATION: "/api/ai/generate-explanation",
   },
 
   SESSION: {
-    CREATE: "/api/questions/add",
+    CREATE: "/api/sessions/create",
     GET_ALL: "/api/sessions/my-sessions",
     GET_ONE: (id) => `/api/sessions/${id}`,
     DELETE: (id) => `/api/sessions/${id}`,

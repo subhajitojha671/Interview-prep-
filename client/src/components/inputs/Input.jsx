@@ -36,7 +36,7 @@ const Input = ({
           }
           placeholder={placeholder}
           className="w-full bg-transparent outline-none"
-          value={value}
+          value={value ?? ""}
           onChange={onChange}
           required
         />

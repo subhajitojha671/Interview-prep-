@@ -1,50 +1,147 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/Input";
-import SpinnerLoader from "../Home/SpinnerLoader";
+import SpinnerLoader from "./SpinnerLoader";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 
-const CreateSessionFrom = () => {
+function CreateSessionFrom() {
+  // =========================
+  // Form State
+  // =========================
   const [formData, setFormData] = useState({
     role: "",
     experience: "",
     topicToFocus: "",
     description: "",
+    numberOfQuestions: 20,
   });
 
+  // =========================
+  // UI State
+  // =========================
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
+  // =========================
+  // Handle Input Changes
+  // =========================
   const handleChange = (key, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [key]: value,
     }));
   };
 
+  // =========================
+  // Create Interview Session
+  // =========================
   const handleCreateSession = async (e) => {
     e.preventDefault();
 
-    const { role, experience, topicToFocus } = formData;
+    setError("");
 
-    if (!role || !experience || !topicToFocus) {
-      setError("Please fill all the required fields.");
+    const {
+      role,
+      experience,
+      topicToFocus,
+      description,
+      numberOfQuestions,
+    } = formData;
+
+    // =========================
+    // Validation
+    // =========================
+    if (
+      !role.trim() ||
+      !topicToFocus.trim() ||
+      experience === "" ||
+      Number(experience) < 0 ||
+      !numberOfQuestions ||
+      Number(numberOfQuestions) <= 0
+    ) {
+      setError(
+        "Role, Experience, Topic, and Number of Questions are required."
+      );
       return;
     }
 
-    setError("");
+    // Limit Question Count
+    if (Number(numberOfQuestions) > 100) {
+      setError("Maximum 100 questions allowed.");
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
+      // =========================
+      // Step 1: Generate Questions
+      // =========================
+      const aiResponse = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_QUESTIONS,
+        {
+          role: role.trim(),
+          experience,
+          topicsToFocus: topicToFocus.trim(), // Backend AI expects this field
+          numberOfQuestions: Number(numberOfQuestions),
+        }
+      );
 
-      // API Call Here
+      const generatedQuestions = aiResponse.data;
 
-      console.log(formData);
+      // Safety Check
+      if (
+        !generatedQuestions ||
+        !Array.isArray(generatedQuestions)
+      ) {
+        throw new Error("Failed to generate questions");
+      }
 
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
+      // =========================
+      // Step 2: Create Session
+      // =========================
+      const sessionResponse = await axiosInstance.post(
+        API_PATHS.SESSION.CREATE,
+        {
+          role: role.trim(),
+          experience,
+          topicToFocus: topicToFocus.trim(),
+          description: description.trim(),
+          questions: generatedQuestions,
+        }
+      );
+
+      // =========================
+      // Step 3: Redirect User
+      // =========================
+      if (sessionResponse.data?.session?._id) {
+        navigate(
+          `/interview-prep/${sessionResponse.data.session._id}`
+        );
+      }
+
+      // =========================
+      // Optional: Reset Form
+      // =========================
+      setFormData({
+        role: "",
+        experience: "",
+        topicToFocus: "",
+        description: "",
+        numberOfQuestions: 20,
+      });
+
+    } catch (error) {
+      console.error("Create Session Error:", error);
+
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Something went wrong. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -52,68 +149,105 @@ const CreateSessionFrom = () => {
 
   return (
     <div className="w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center">
+      {/* =========================
+          Heading
+      ========================= */}
       <h3 className="text-lg font-semibold text-black">
         Start a New Interview Journey
       </h3>
 
-      <p className="text-xs text-slate-700 mt-[5px] mb-3">
-        Fill out a few quick details and unlock your personalized set of
-        interview questions!
+      <p className="text-xs text-slate-700 mt-1 mb-3">
+        Fill out a few quick details and unlock your personalized
+        set of interview questions.
       </p>
 
+      {/* =========================
+          Form
+      ========================= */}
       <form
         onSubmit={handleCreateSession}
         className="flex flex-col gap-3"
       >
+        {/* Role */}
         <Input
           value={formData.role}
-          onChange={(e) => handleChange("role", e.target.value)}
+          onChange={(e) =>
+            handleChange("role", e.target.value)
+          }
           label="Target Role"
-          placeholder="Frontend Developer, UI/UX Designer, etc."
+          placeholder="Frontend Developer, Backend Developer, UI/UX Designer"
           type="text"
         />
 
+        {/* Experience */}
         <Input
           value={formData.experience}
-          onChange={(e) => handleChange("experience", e.target.value)}
+          onChange={(e) =>
+            handleChange("experience", e.target.value)
+          }
           label="Years of Experience"
-          placeholder="0-1, 2-3, 5+ years"
+          placeholder="0, 1, 2, 5..."
           type="number"
         />
 
+        {/* Topic */}
         <Input
           value={formData.topicToFocus}
-          onChange={(e) => handleChange("topicToFocus", e.target.value)}
-          label="Topic to Focus On"
+          onChange={(e) =>
+            handleChange("topicToFocus", e.target.value)
+          }
+          label="Topic To Focus On"
           placeholder="React, Node.js, MongoDB"
           type="text"
         />
 
+        {/* Description */}
         <Input
           value={formData.description}
-          onChange={(e) => handleChange("description", e.target.value)}
+          onChange={(e) =>
+            handleChange("description", e.target.value)
+          }
           label="Additional Details (Optional)"
           placeholder="Any specific goals or notes"
           type="text"
         />
 
+        {/* Number Of Questions */}
+        <Input
+          value={formData.numberOfQuestions}
+          onChange={(e) =>
+            handleChange(
+              "numberOfQuestions",
+              e.target.value
+            )
+          }
+          label="Number Of Questions"
+          placeholder="20"
+          type="number"
+        />
+
+        {/* Error Message */}
         {error && (
-          <p className="text-red-500 text-xs pb-2">
+          <p className="text-red-500 text-xs">
             {error}
           </p>
         )}
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="btn-primary w-full mt-2 flex items-center justify-center gap-2"
           disabled={isLoading}
+          className="btn-primary w-full mt-2 flex items-center justify-center gap-2"
         >
           {isLoading && <SpinnerLoader />}
-          {isLoading ? "Creating..." : "Create Session"}
+
+          {isLoading
+            ? "Creating Session..."
+            : "Create Session"}
         </button>
       </form>
     </div>
   );
-};
+}
 
 export default CreateSessionFrom;
