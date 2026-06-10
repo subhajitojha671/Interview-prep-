@@ -35,7 +35,9 @@ function LandingPage() {
           {/* Header */}
           <header className="flex justify-between items-center mb-16">
             <div className="text-xl text-black font-bold">
-              Interview Prep AI
+              <h2 className="text-2xl font-extrabold bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
+                Interview Prep AI
+              </h2>
             </div>
 
             {user ? (

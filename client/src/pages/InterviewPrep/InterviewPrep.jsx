@@ -1,14 +1,17 @@
-import React from 'react'
-import {useParams} from "react-router-dom"
-import moment from "moment"
-import {AnimatePresence, motion} from "framer-motion"
-import {LuCircleAlert, LuListCollapse} from "react-icons/lu"
-import SpinnerLoader from '../Home/SpinnerLoader'
-import {toast} from "react-hot-toast"
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import moment from "moment";
+import { motion, AnimatePresence } from "framer-motion";
+
+import DashboardLayout from "../../components/layouts/DashboardLayout";
+import RoleInfoHeader from "./components/RoleInfoHeader";
+import QuestionCard from "../../components/cards/QuestionCard";
+
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 
 const InterviewPrep = () => {
-
-  const {sessionId} = useParams();
+  const { sessionId } = useParams();
 
   const [sessionData, setSessionData] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
@@ -19,17 +22,165 @@ const InterviewPrep = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdateLoader, setIsUpdateLoader] = useState(false);
 
-  //Fetch session data by session id
-  const fetchSessionDetailsById = async () => {};
+  // Fetch session data by ID
+  const fetchSessionDetailsById = async () => {
+    try {
+      setIsLoading(true);
 
-  //Generate Concept explanation
-  const generateConceptExplanation = async (concept) => {};
+      const response = await axiosInstance.get(
+        API_PATHS.SESSION.GET_ONE(sessionId)
+      );
+
+      if (response.data?.session) {
+        setSessionData(response.data.session);
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMsg("Failed to fetch session details.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Generate Concept Explanation
+  const generateConceptExplanation = async (concept) => {
+    try {
+      console.log("Generate explanation for:", concept);
+
+      // API call goes here
+
+      setOpenLearnMore(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Pin / Unpin Question
+  const toggleQuestionPinStatus = async (questionId, isPinned) => {
+    try {
+      console.log("Question ID:", questionId);
+      console.log("Current Pin Status:", isPinned);
+
+      // API call goes here
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Add more questions to session
+  const uploadMoreQuestions = async (event) => {
+    try {
+      console.log(event);
+
+      // API call goes here
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (sessionId) {
+      fetchSessionDetailsById();
+    }
+  }, [sessionId]);
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center py-20">
+          <h2 className="text-lg font-medium">Loading...</h2>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
-    <div>
-      interview prep page
-    </div>
-  )
-}
+    <DashboardLayout>
+      <RoleInfoHeader
+        role={sessionData?.role || ""}
+        topicToFocus={sessionData?.topicToFocus || ""}
+        experience={sessionData?.experience || "-"}
+        questions={sessionData?.questions?.length || "-"}
+        description={sessionData?.description || ""}
+        lastUpdated={
+          sessionData?.updatedAt
+            ? moment(sessionData.updatedAt).format("DD MMM YYYY")
+            : ""
+        }
+      />
 
-export default InterviewPrep
+      <div className="container mx-auto pt-4 pb-4 px-[15px]">
+        <h2 className="text-lg font-semibold text-black">
+          Interview Q & A
+        </h2>
+
+        {errorMsg && (
+          <p className="text-red-500 mt-2 mb-4">
+            {errorMsg}
+          </p>
+        )}
+
+        <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
+          <div
+            className={`col-span-12 ${
+              openLearnMore ? "md:col-span-7" : "md:col-span-8"
+            }`}
+          >
+            <AnimatePresence>
+              {sessionData?.questions?.map((item, index) => (
+                <motion.div
+                  key={item._id || index}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{
+                    duration: 0.4,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                    delay: index * 0.1,
+                  }}
+                  layout
+                  layoutId={`question-${item._id || index}`}
+                >
+                  <QuestionCard
+                    question={item?.question}
+                    answer={item?.answer}
+                    isPinned={item?.isPinned}
+                    onLearnMore={() =>
+                      generateConceptExplanation(item?.question)
+                    }
+                    onTogglePin={() =>
+                      toggleQuestionPinStatus(
+                        item?._id,
+                        item?.isPinned
+                      )
+                    }
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          {/* Learn More Drawer Section */}
+          {openLearnMore && (
+            <div className="col-span-12 md:col-span-5">
+              <div className="bg-white rounded-lg border p-4 shadow-sm">
+                <h3 className="text-lg font-semibold mb-3">
+                  Concept Explanation
+                </h3>
+
+                <p>
+                  {explanation ||
+                    "Select a question and click Learn More to view detailed explanations."}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+};
+
+export default InterviewPrep;
