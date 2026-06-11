@@ -5,6 +5,7 @@ import {
   LuPinOff,
   LuSparkles,
 } from "react-icons/lu";
+import { motion } from "framer-motion";
 import AIResponsePreview from "../../pages/InterviewPrep/components/AIResponsePreview";
 
 const QuestionCard = ({

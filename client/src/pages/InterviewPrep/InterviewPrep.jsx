@@ -56,16 +56,48 @@ const InterviewPrep = () => {
   };
 
   // Pin / Unpin Question
-  const toggleQuestionPinStatus = async (questionId, isPinned) => {
-    try {
-      console.log("Question ID:", questionId);
-      console.log("Current Pin Status:", isPinned);
+const toggleQuestionPinStatus = async (questionId) => {
+  // Save current state for rollback
+  const previousData = sessionData;
 
-      // API call goes here
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // Optimistic update (instant UI update)
+  setSessionData((prev) => {
+    const updatedQuestions = prev.questions.map((q) =>
+      q._id === questionId
+        ? { ...q, isPinned: !q.isPinned }
+        : q
+    );
+
+    updatedQuestions.sort((a, b) => {
+      if (a.isPinned === b.isPinned) return 0;
+      return a.isPinned ? -1 : 1;
+    });
+
+    return {
+      ...prev,
+      questions: updatedQuestions,
+    };
+  });
+
+  try {
+    await axiosInstance.post(
+      API_PATHS.QUESTION.PIN(questionId)
+    );
+
+    // Success: do nothing
+    // UI already updated
+  } catch (error) {
+    console.error("Pin update failed:", error);
+
+    // Rollback to previous state
+    setSessionData(previousData);
+
+    // Optional: show error toast
+    // toast.error("Failed to update pin status");
+     // Alert user
+    alert("Failed to update pin status. Please try again.");
+  }
+};
 
   // Add more questions to session
   const uploadMoreQuestions = async (event) => {
@@ -126,23 +158,24 @@ const InterviewPrep = () => {
               openLearnMore ? "md:col-span-7" : "md:col-span-8"
             }`}
           >
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {sessionData?.questions?.map((item, index) => (
                 <motion.div
-                  key={item._id || index}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{
-                    duration: 0.4,
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 15,
-                    delay: index * 0.1,
-                  }}
-                  layout
-                  layoutId={`question-${item._id || index}`}
-                >
+                    key={item._id || index}
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, scale: 0.95 }}
+  transition={{
+    duration: 0.4,
+    type: "spring",
+    stiffness: 100,
+    damping: 15,
+    delay: index * 0.1,
+  }}
+  layout
+  layoutId={`question-${item._id || index}`}
+>
+
                   <QuestionCard
                     question={item?.question}
                     answer={item?.answer}

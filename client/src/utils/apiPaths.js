@@ -23,9 +23,9 @@ export const API_PATHS = {
     DELETE: (id) => `/api/sessions/${id}`,
   },
 
-  QUESTION: {
-    ADD_TO_SESSION: "/api/questions/add",
-    PIN: (id) => `/api/question/${id}/pin`,
-    UPDATE_NOTE: (id) => `/api/questions/${id}/note`,
-  },
+ QUESTION: {
+  ADD_TO_SESSION: "/api/questions/add",
+  PIN: (id) => `/api/questions/${id}/pin`,
+  UPDATE_NOTE: (id) => `/api/questions/${id}/note`,
+},
 };

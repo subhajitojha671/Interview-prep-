@@ -39,7 +39,7 @@ const generateInterviewQuestions = async (req, res) => {
     );
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
@@ -70,33 +70,46 @@ const generateConceptExplanation = async (req, res) => {
   try {
     const { question } = req.body;
 
-    if(!question){
-      return res.status(400).json({message: "Missing require fields"});
+    if (!question) {
+      return res.status(400).json({
+        message: "Missing required fields",
+      });
     }
 
     const prompt = ConceptExplainPrompt(question);
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
-    let rawText = response.text;
+    const rawText = response.text;
 
-    //Clean it: Remove ``` json and ``` from begining and end
     const cleanedText = rawText
-         .replace(/^```json\s*/,"") //remove starting ```json
-         .replace(/```$/,"") //remove ending....
-         .trim(); //remove extra spaces
+      .replace(/^```json\s*/i, "")
+      .replace(/```$/i, "")
+      .trim();
 
+    let data;
 
-    //Now safe to parse 
-    const data = JSON.parse(cleanedText);
+    try {
+      data = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error("JSON Parse Error:", parseError);
 
+      return res.status(500).json({
+        message: "Invalid JSON returned from Gemini",
+        rawResponse: cleanedText,
+      });
+    }
 
-
-    res.status(200).json(data);
+    res.status(200).json({
+      title: data.title,
+      explanation: data.explanation,
+    });
   } catch (error) {
+    console.error("Generate Explanation Error:", error);
+
     res.status(500).json({
       message: "Failed to generate explanation",
       error: error.message,
