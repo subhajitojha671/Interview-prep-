@@ -5,15 +5,20 @@ const Modal = ({ children, isOpen, onClose, title, hideHeader }) => {
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black/40 px-4'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-[#0E1116]/50 backdrop-blur-[2px] px-4 font-body'>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+        .font-body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
 
       {/* Modal Content */}
-      <div className='relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md'>
+      <div className='relative flex flex-col bg-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-md max-h-[90vh]'>
 
         {/* Modal Header */}
         {!hideHeader && (
-          <div className='flex items-center justify-between p-4 border-b border-gray-200'>
-            <h3 className='text-lg font-medium text-gray-900'>
+          <div className='flex items-center justify-between p-4 border-b border-[#0E1116]/[0.06]'>
+            <h3 className='font-display text-lg font-semibold text-[#0E1116]'>
               {title}
             </h3>
           </div>
@@ -22,7 +27,7 @@ const Modal = ({ children, isOpen, onClose, title, hideHeader }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className='absolute top-3.5 right-3.5 text-gray-400 bg-transparent hover:bg-orange-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex items-center justify-center cursor-pointer'
+          className='absolute top-3.5 right-3.5 text-[#0E1116]/40 bg-transparent hover:bg-[#34D399]/10 hover:text-[#0E1116] rounded-lg text-sm w-8 h-8 flex items-center justify-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34D399]'
           type='button'
         >
           <svg
@@ -52,4 +57,4 @@ const Modal = ({ children, isOpen, onClose, title, hideHeader }) => {
   );
 };
 
-export default Modal; 
+export default Modal;

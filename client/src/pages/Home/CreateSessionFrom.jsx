@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LuSparkles } from "react-icons/lu";
 import Input from "../../components/inputs/Input";
-import SpinnerLoader from "./SpinnerLoader";
+import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 
@@ -148,15 +149,25 @@ function CreateSessionFrom() {
   };
 
   return (
-    <div className="w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center">
+    <div className="w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center font-body">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+        .font-body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
+
       {/* =========================
           Heading
       ========================= */}
-      <h3 className="text-lg font-semibold text-black">
-        Start a New Interview Journey
+      <span className="w-9 h-9 rounded-lg bg-[#34D399]/10 flex items-center justify-center mb-4">
+        <LuSparkles size={16} className="text-[#34D399]" />
+      </span>
+
+      <h3 className="font-display text-2xl font-semibold text-[#0E1116]">
+        Start a new interview journey
       </h3>
 
-      <p className="text-xs text-slate-700 mt-1 mb-3">
+      <p className="text-sm text-[#5B6472] mt-1 mb-5">
         Fill out a few quick details and unlock your personalized
         set of interview questions.
       </p>
@@ -166,7 +177,7 @@ function CreateSessionFrom() {
       ========================= */}
       <form
         onSubmit={handleCreateSession}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-4"
       >
         {/* Role */}
         <Input
@@ -228,7 +239,7 @@ function CreateSessionFrom() {
 
         {/* Error Message */}
         {error && (
-          <p className="text-red-500 text-xs">
+          <p className="text-[#FF6B4A] text-sm -mt-1">
             {error}
           </p>
         )}
@@ -237,13 +248,13 @@ function CreateSessionFrom() {
         <button
           type="submit"
           disabled={isLoading}
-          className="btn-primary w-full mt-2 flex items-center justify-center gap-2"
+          className="w-full bg-[#0E1116] text-sm font-semibold text-white px-6 py-3 rounded-full hover:bg-[#1c2230] disabled:opacity-60 disabled:cursor-not-allowed transition-colors cursor-pointer mt-2 flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34D399] focus-visible:ring-offset-2"
         >
           {isLoading && <SpinnerLoader />}
 
           {isLoading
-            ? "Creating Session..."
-            : "Create Session"}
+            ? "Creating session..."
+            : "Create session"}
         </button>
       </form>
     </div>

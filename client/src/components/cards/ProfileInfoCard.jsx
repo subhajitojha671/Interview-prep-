@@ -16,21 +16,27 @@ const ProfileInfoCard = () => {
   if (!user) return null;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 font-body">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+        .font-body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
+
       <img
         src={user?.profileImageUrl}
         alt="Profile"
-        className="w-11 h-11 rounded-full object-cover border-2 border-gray-200"
+        className="w-11 h-11 rounded-full object-cover border-2 border-[#34D399]/40"
       />
 
       <div className="hidden sm:block">
-        <h3 className="text-sm font-semibold text-gray-900">
+        <h3 className="text-sm font-semibold text-[#0E1116]">
           {user?.name}
         </h3>
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-1 text-xs text-orange-500 hover:text-orange-700 hover:underline font-medium cursor-pointer transition-colors"
+          className="flex items-center gap-1 text-xs text-[#0d8a5f] hover:text-[#FF6B4A] font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34D399] rounded"
         >
           <LuLogOut size={14} />
           Logout

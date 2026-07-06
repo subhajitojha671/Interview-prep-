@@ -2,7 +2,7 @@ import React from "react";
 
 const SpinnerLoader = ({
   size = "w-6 h-6",
-  color = "border-orange-500",
+  color = "border-[#34D399]",
 }) => {
   return (
     <div

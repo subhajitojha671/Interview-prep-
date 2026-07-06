@@ -11,7 +11,13 @@ const AIResponsePreview = ({ content }) => {
   if (!content) return null;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto font-body">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+        .font-body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
+
       <div className="text-[14px] prose prose-slate max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
@@ -30,7 +36,7 @@ const AIResponsePreview = ({ content }) => {
     />
   ) : (
     <code
-      className="px-1 py-0.5 bg-gray-100 rounded text-sm"
+      className="px-1 py-0.5 bg-[#34D399]/10 text-[#0E1116] rounded text-sm"
       {...props}
     >
       {children}
@@ -40,11 +46,11 @@ const AIResponsePreview = ({ content }) => {
 
 
             p({ children }) {
-              return <p className="mb-4 leading-6">{children}</p>;
+              return <p className="mb-4 leading-6 text-[#1E2430]">{children}</p>;
             },
 
             strong({ children }) {
-              return <strong>{children}</strong>;
+              return <strong className="text-[#0E1116]">{children}</strong>;
             },
 
             em({ children }) {
@@ -68,12 +74,12 @@ const AIResponsePreview = ({ content }) => {
             },
 
             li({ children }) {
-              return <li className="mb-1">{children}</li>;
+              return <li className="mb-1 text-[#1E2430]">{children}</li>;
             },
 
             blockquote({ children }) {
               return (
-                <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4">
+                <blockquote className="border-l-4 border-[#34D399] bg-[#34D399]/[0.06] pl-4 py-1 italic my-4 text-[#5B6472]">
                   {children}
                 </blockquote>
               );
@@ -81,7 +87,7 @@ const AIResponsePreview = ({ content }) => {
 
             h1({ children }) {
               return (
-                <h1 className="text-2xl font-bold mt-6 mb-4">
+                <h1 className="font-display text-2xl font-bold mt-6 mb-4 text-[#0E1116]">
                   {children}
                 </h1>
               );
@@ -89,7 +95,7 @@ const AIResponsePreview = ({ content }) => {
 
             h2({ children }) {
               return (
-                <h2 className="text-xl font-bold mt-6 mb-3">
+                <h2 className="font-display text-xl font-bold mt-6 mb-3 text-[#0E1116]">
                   {children}
                 </h2>
               );
@@ -97,7 +103,7 @@ const AIResponsePreview = ({ content }) => {
 
             h3({ children }) {
               return (
-                <h3 className="text-lg font-bold mt-5 mb-2">
+                <h3 className="font-display text-lg font-bold mt-5 mb-2 text-[#0E1116]">
                   {children}
                 </h3>
               );
@@ -105,7 +111,7 @@ const AIResponsePreview = ({ content }) => {
 
             h4({ children }) {
               return (
-                <h4 className="text-base font-bold mt-4 mb-2">
+                <h4 className="font-display text-base font-bold mt-4 mb-2 text-[#0E1116]">
                   {children}
                 </h4>
               );
@@ -117,7 +123,7 @@ const AIResponsePreview = ({ content }) => {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-[#34D399] hover:text-[#28b981] underline underline-offset-2"
                 >
                   {children}
                 </a>
@@ -126,8 +132,8 @@ const AIResponsePreview = ({ content }) => {
 
             table({ children }) {
               return (
-                <div className="overflow-x-auto my-4">
-                  <table className="min-w-full border border-gray-200 divide-y divide-gray-300">
+                <div className="overflow-x-auto my-4 rounded-lg border border-[#0E1116]/[0.08]">
+                  <table className="min-w-full divide-y divide-[#0E1116]/[0.08]">
                     {children}
                   </table>
                 </div>
@@ -135,12 +141,12 @@ const AIResponsePreview = ({ content }) => {
             },
 
             thead({ children }) {
-              return <thead className="bg-gray-50">{children}</thead>;
+              return <thead className="bg-[#34D399]/[0.08]">{children}</thead>;
             },
 
             tbody({ children }) {
               return (
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-[#0E1116]/[0.06]">
                   {children}
                 </tbody>
               );
@@ -152,7 +158,7 @@ const AIResponsePreview = ({ content }) => {
 
             th({ children }) {
               return (
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 py-2 text-left text-xs font-semibold text-[#0E1116] uppercase tracking-wider">
                   {children}
                 </th>
               );
@@ -160,14 +166,14 @@ const AIResponsePreview = ({ content }) => {
 
             td({ children }) {
               return (
-                <td className="px-3 py-2 text-sm">
+                <td className="px-3 py-2 text-sm text-[#1E2430]">
                   {children}
                 </td>
               );
             },
 
             hr() {
-              return <hr className="my-6 border-gray-300" />;
+              return <hr className="my-6 border-[#0E1116]/10" />;
             },
 
             img({ src, alt }) {
@@ -175,7 +181,7 @@ const AIResponsePreview = ({ content }) => {
                 <img
                   src={src}
                   alt={alt}
-                  className="rounded-lg my-4 max-w-full h-auto"
+                  className="rounded-lg my-4 max-w-full h-auto border border-[#0E1116]/[0.06]"
                 />
               );
             },
@@ -201,21 +207,21 @@ function CodeBlock({ code, language }) {
   };
 
   return (
-    <div className="relative my-6 rounded-lg overflow-hidden bg-gray-50 border border-gray-200">
-      <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b border-gray-200">
+    <div className="relative my-6 rounded-lg overflow-hidden bg-[#F7F5F0] border border-[#0E1116]/10">
+      <div className="flex items-center justify-between px-4 py-2 bg-[#0E1116] border-b border-[#0E1116]/10">
         <div className="flex items-center space-x-2">
-          <LuCode className="text-gray-500" />
-          <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+          <LuCode className="text-[#34D399]" />
+          <span className="text-xs font-semibold text-white/70 uppercase tracking-wide">
             {language || "Code"}
           </span>
         </div>
 
         <button
           onClick={copyCode}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-white/60 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34D399] rounded"
         >
           {copied ? (
-            <LuCheck size={16} className="text-green-600" />
+            <LuCheck size={16} className="text-[#34D399]" />
           ) : (
             <LuCopy size={16} />
           )}

@@ -14,33 +14,11 @@ Task:
 - For each question, generate a detailed beginner-to-advanced friendly answer.
 - Include practical examples wherever possible.
 - Include code examples when the topic requires code.
-- All code examples MUST be wrapped in Markdown code blocks using triple backticks.
-- Always specify the language of the code block.
+- Specify the programming language for every markdown code block (javascript, python, java, c++, etc.).
 
-Example code block:
-
-\`\`\`javascript
-const http = require("http");
-\`\`\`
-
-Response Format:
-
-[
-  {
-    "question": "What is Node.js?",
-    "answer": "Node.js is a JavaScript runtime environment...\\n\\nExample:\\n\\n\`\`\`javascript\\nconst http = require('http');\\n\`\`\`"
-  }
-]
-
-Important Rules:
-- Return ONLY a valid JSON array.
-- Do NOT wrap the JSON response in markdown.
-- Do NOT use \`\`\`json around the response.
-- Do NOT add explanations before or after the JSON.
-- Answers must contain valid Markdown.
-- Preserve Markdown headings, bullet points, and code blocks inside answer strings.
-- Escape newlines correctly so the JSON remains valid.
-- Return only valid parsable JSON.
+Requirements for the 'answer' text:
+- Answers must contain rich Markdown.
+- Feel free to use Markdown headings, bolding, bullet points, and triple-backtick code blocks directly inside the answer string values.
 `;
 
 const ConceptExplainPrompt = (question) => `
@@ -51,44 +29,22 @@ Question:
 
 Generate a comprehensive learning guide.
 
-Requirements:
-- Provide a short title.
-- Explanation must be at least 800-1500 words.
-- Start with a simple beginner-friendly definition.
-- Explain the concept step by step.
-- Explain how it works internally.
-- Include real-world examples.
-- Include practical use cases.
-- Include advantages and disadvantages.
-- Include common interview questions related to this topic.
-- Include common mistakes beginners make.
-- Include best practices.
-- Include code examples where applicable.
-- ALL code examples MUST be wrapped in Markdown code blocks using triple backticks.
+Requirements for the 'explanation' text:
+- Use detailed Markdown formatting (headings, bold text, lists) natively.
+- Include code examples where applicable wrapped in clean triple-backtick code blocks.
 - Specify the language for every code block (javascript, python, java, c++, etc.).
-- Use proper Markdown formatting.
+- Content length: At least 800-1500 words.
 
-Example code block format:
-
-\`\`\`javascript
-const app = express();
-app.listen(3000);
-\`\`\`
-
-Return ONLY valid JSON:
-
-{
-  "title": "string",
-  "explanation": "markdown content here"
-}
-
-Important:
-- explanation must contain raw markdown.
-- code examples must use triple backticks.
-- do not escape markdown code blocks.
-- do not wrap the JSON response in markdown.
-- do not add any text before or after JSON.
-- return only valid JSON.
+Structure your technical response layout using these exact content milestones:
+1. Short, catchy title.
+2. Simple beginner-friendly definition.
+3. Step-by-step breakdown of the concept.
+4. Deep dive into how it works internally.
+5. Real-world analogies and practical use cases.
+6. Advantages and disadvantages.
+7. Common technical interview questions related to this topic.
+8. Common pitfalls/mistakes beginners make.
+9. Best practices and production guidelines.
 `;
 
 module.exports = {

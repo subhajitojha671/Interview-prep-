@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { LuSparkles } from "react-icons/lu";
 import Input from "../../components/inputs/Input";
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
 import { validateEmail } from '../../utils/helper';
@@ -87,24 +88,33 @@ const SignUP = ({ setCurrentPage }) => {
   };
 
   return (
-    <div className='w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center'>
+    <div className='w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center font-body'>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+        .font-body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
 
-      <h3 className='text-lg font-semibold text-black'>
-        Create an Account
+      <span className='w-9 h-9 rounded-lg bg-[#34D399]/10 flex items-center justify-center mb-4'>
+        <LuSparkles size={16} className='text-[#34D399]' />
+      </span>
+
+      <h3 className='font-display text-2xl font-semibold text-[#0E1116]'>
+        Create your account
       </h3>
 
-      <p className='text-xs text-slate-700 mt-[5px] mb-6'>
-        Join us today by entering your details below.
+      <p className='text-sm text-[#5B6472] mt-1 mb-6'>
+        Join us today and start prepping smarter, not longer.
       </p>
 
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={handleSignUp} className='flex flex-col'>
 
         <ProfilePhotoSelector
           image={profilePic}
           setImage={setProfilePic}
         />
 
-        <div className='grid grid-cols-1 gap-2'>
+        <div className='grid grid-cols-1 gap-4 mt-4'>
 
           <Input
             value={fullName}
@@ -133,27 +143,27 @@ const SignUP = ({ setCurrentPage }) => {
         </div>
 
         {error && (
-          <p className='text-red-500 text-xs pb-2.5 mt-2'>
+          <p className='text-[#FF6B4A] text-sm pb-1 mt-3'>
             {error}
           </p>
         )}
 
         <button
           type='submit'
-          className='btn-primary mt-4'
+          className='w-full bg-[#0E1116] text-sm font-semibold text-white px-6 py-3 rounded-full hover:bg-[#1c2230] transition-colors cursor-pointer mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#34D399] focus-visible:ring-offset-2'
         >
-          SIGN UP
+          Sign up
         </button>
 
-        <p className='text-[13px] text-slate-800 mt-3'>
+        <p className='text-[13px] text-[#5B6472] mt-3 text-center'>
           Already have an account?{" "}
 
           <button
             type="button"
-            className='font-medium text-amber-500 hover:text-amber-600 underline cursor-pointer'
+            className='font-semibold text-[#34D399] hover:text-[#28b981] underline underline-offset-2 cursor-pointer'
             onClick={() => setCurrentPage("login")}
           >
-            Login
+            Log in
           </button>
 
         </p>

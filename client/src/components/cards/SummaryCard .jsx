@@ -16,8 +16,14 @@ const SummaryCard = ({
   return (
     <div
       onClick={onSelect}
-      className="mx-2 bg-white border border-gray-200 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative group"
+      className="mx-2 bg-white border border-[#0E1116]/[0.06] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-[#34D399]/[0.08] hover:-translate-y-1 hover:border-[#34D399]/30 relative group font-body"
     >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+        .font-body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
+
       {/* Header */}
       <div
         className="p-5"
@@ -25,17 +31,17 @@ const SummaryCard = ({
       >
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-sm">
-            <span className="text-lg font-bold text-gray-800">
+            <span className="font-display text-lg font-bold text-[#0E1116]">
               {getInitials(role)}
             </span>
           </div>
 
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="font-display text-lg font-bold text-[#0E1116]">
               {role}
             </h2>
 
-            <p className="text-sm text-gray-700 mt-1 line-clamp-2">
+            <p className="text-sm text-[#0E1116]/70 mt-1 line-clamp-2">
               {topicToFocus}
             </p>
           </div>
@@ -48,7 +54,7 @@ const SummaryCard = ({
           e.stopPropagation();
           onDelete();
         }}
-        className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white text-red-500 p-2 rounded-lg shadow-md hover:bg-red-50"
+        className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white text-[#FF6B4A] p-2 rounded-lg shadow-md hover:bg-[#FF6B4A]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B4A]"
       >
         <Trash2 size={16} />
       </button>
@@ -56,20 +62,20 @@ const SummaryCard = ({
       {/* Content */}
       <div className="p-5">
         <div className="flex flex-wrap gap-2 mb-4">
-          <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-50 text-blue-700">
+          <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#0E1116]/[0.06] text-[#0E1116]">
             {experience} {experience == 1 ? "Year" : "Years"}
           </span>
 
-          <span className="text-xs font-medium px-3 py-1 rounded-full bg-green-50 text-green-700">
+          <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#34D399]/15 text-[#0d8a5f]">
             {questions} Q&A
           </span>
 
-          <span className="text-xs font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-700">
+          <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#F7F5F0] text-[#5B6472]">
             Last Updated: {lastUpdated}
           </span>
         </div>
 
-        <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+        <p className="text-sm text-[#5B6472] line-clamp-3 leading-relaxed">
           {description}
         </p>
       </div>
