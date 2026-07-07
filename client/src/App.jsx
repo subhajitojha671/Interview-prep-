@@ -7,6 +7,9 @@ import Dashboard from './pages/Home/Dashboard';
 import InterviewPrep from './pages/InterviewPrep/InterviewPrep';
 import LandingPage from "./pages/LandingPage";
 import UserProvider from './context/userContext';
+import AskAI from './pages/Home/AskAI';
+import MockTest from './pages/Home/MockTest';
+
 
 
 const App = () => {
@@ -22,7 +25,10 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUP />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/ask-ai" element={<AskAI />} />
+          <Route path="/mock-test" element={<MockTest />} />
           <Route path="/interview-prep/:sessionId" element={<InterviewPrep />} />
+          
         </Routes>
       </Router>
 

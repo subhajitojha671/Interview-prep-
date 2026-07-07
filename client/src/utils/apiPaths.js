@@ -28,4 +28,10 @@ export const API_PATHS = {
   PIN: (id) => `/api/questions/${id}/pin`,
   UPDATE_NOTE: (id) => `/api/questions/${id}/note`,
 },
+
+ ASK_AI: {
+    ASK: "/api/ask-ai",
+    HISTORY: "/api/ask-ai/history",
+    DELETE: (id) => `/api/ask-ai/${id}`,
+  },
 };

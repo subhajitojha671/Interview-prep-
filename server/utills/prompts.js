@@ -47,7 +47,33 @@ Structure your technical response layout using these exact content milestones:
 9. Best practices and production guidelines.
 `;
 
+const AskAiPrompt = (question) => 
+  `You are an expert technical interviewer, software engineer, and mentor.
+
+Answer the following question in a clear, interview-focused manner.
+
+Requirements:
+
+* Keep the answer between 250 and 300 words.
+* Use simple and easy-to-understand language.
+* Start with a short definition or overview.
+* Explain the concept with key points.
+* Include a real-world example when relevant.
+* If the topic is related to programming, web development, databases, APIs, system design, data structures, algorithms, or software engineering, include a short practical code example.
+* Keep code examples concise (5–15 lines maximum).
+* Format code examples using proper code blocks with the appropriate language.
+* Use bullet points where helpful.
+* Focus on interview preparation and practical understanding.
+* Do not exceed 300 words for the explanation (code example not included in the word count).
+* Do not include phrases like "As an AI language model".
+* Return only the answer.
+
+Question:
+${question}
+`;
+
 module.exports = {
   questionAnswerPrompt,
   ConceptExplainPrompt,
+  AskAiPrompt,
 };

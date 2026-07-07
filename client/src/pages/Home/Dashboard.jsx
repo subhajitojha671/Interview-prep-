@@ -46,7 +46,7 @@ function Dashboard() {
       `}</style>
 
       <div className="container mx-auto pt-4 pb-4 px-[15px] font-body">
-        <div className="flex items-center justify-between px-4 md:px-0 pt-2 pb-6">
+        <div className="flex items-center justify-between px-4 md:px-0 pt-6 pb-6">
           <div>
             <h2 className="font-display text-2xl font-semibold text-[#0E1116]">
               Your sessions

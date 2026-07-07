@@ -91,7 +91,7 @@ function CreateSessionFrom() {
         }
       );
 
-      const generatedQuestions = aiResponse.data;
+      const generatedQuestions = aiResponse.data?.questions;
 
       // Safety Check
       if (
