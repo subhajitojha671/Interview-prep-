@@ -30,7 +30,7 @@ const ProfileInfoCard = () => {
       />
 
       <div className="hidden sm:block">
-        <h3 className="text-sm font-semibold text-[#0E1116]">
+        <h3 className="text-sm font-semibold text-[#708090]">
           {user?.name}
         </h3>
 

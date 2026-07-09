@@ -34,4 +34,11 @@ export const API_PATHS = {
     HISTORY: "/api/ask-ai/history",
     DELETE: (id) => `/api/ask-ai/${id}`,
   },
+
+ MOCK_TEST: {
+    GENERATE: "/api/mock-test/generate",
+    SUBMIT: (id) => `/api/mock-test/${id}/submit`,
+    HISTORY: "/api/mock-test/history",
+    GET_ONE: (id) => `/api/mock-test/${id}`,
+  },
 };

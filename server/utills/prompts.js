@@ -72,8 +72,40 @@ Question:
 ${question}
 `;
 
+const mockTestPrompt = (company, role, level, numberOfQuestions) => `
+You are an AI trained to generate realistic mock technical interview exams
+for job placement preparation.
+ 
+Task:
+- Target Company: ${company}
+- Role: ${role}
+- Difficulty Level: ${level}
+- Generate exactly ${numberOfQuestions} multiple-choice questions covering
+  topics this company commonly tests for this role, spanning core CS
+  fundamentals (data structures, algorithms, OS, DBMS, networks, OOP,
+  system design basics) as relevant to the role and level.
+ 
+Requirements:
+- Each question must have exactly 4 options, labeled "A", "B", "C", "D".
+- Vary question type naturally: some questions have exactly ONE correct
+  option, others have TWO OR MORE correct options ("select all that
+  apply"), similar to a real competitive exam. Do not make every question
+  single-answer.
+- correctAnswers must be an array of the correct option labels only
+  (e.g. ["A"] or ["A","C"]).
+- Give each question a short topicTag describing its subject, formatted
+  like "Data Structures · Trees" or "Operating Systems · Deadlocks".
+- Provide a concise explanation (2-4 sentences) covering why each option
+  is correct or incorrect — this is shown to the learner after grading.
+- Questions must be technically accurate, unambiguous, and appropriately
+  difficult for the stated level.
+- Spread topics broadly; avoid repeating the same narrow topic more than
+  2-3 times across the full set.
+`;
+
 module.exports = {
   questionAnswerPrompt,
   ConceptExplainPrompt,
   AskAiPrompt,
+  mockTestPrompt,
 };
