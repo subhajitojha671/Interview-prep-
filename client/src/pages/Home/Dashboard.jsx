@@ -5,16 +5,20 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import SummaryCard from "../../components/cards/SummaryCard ";
+import SessionsGridSkeleton from "../../components/Loader/SessionsGridSkeleton";
 import { CARD_BG } from "../../utils/data";
 import moment from "moment";
 import CreateSessionFrom from "./CreateSessionFrom";
 import Modal from "../../components/Modal";
+import DeleteAlAlertContent from "../../components/DeleteAlAlertContent";
+import { toast } from "react-hot-toast";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [sessions, setSessions] = useState([]);
+  const [sessionsLoading, setSessionsLoading] = useState(true);
 
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
     open: false,
@@ -23,6 +27,8 @@ function Dashboard() {
 
   const fetchAllSessions = async () => {
     try {
+      setSessionsLoading(true);
+
       const response = await axiosInstance.get(
         API_PATHS.SESSION.GET_ALL
       );
@@ -30,8 +36,28 @@ function Dashboard() {
       setSessions(response.data || []);
     } catch (error) {
       console.error("Error fetching sessions:", error);
+    } finally {
+      setSessionsLoading(false);
     }
   };
+
+  const deleteSession = async (sessionData) => {
+    try{
+      await axiosInstance.delete(API_PATHS.SESSION.DELETE(sessionData._id));
+
+      toast.success("Session Deleted Successfully");
+      setOpenDeleteAlert({
+        open: false,
+        data: null,
+
+      });
+      fetchAllSessions();
+
+    }catch(error){
+      console.error("Error deleting session data:", error)
+    }
+  }
+
 
   useEffect(() => {
     fetchAllSessions();
@@ -57,7 +83,9 @@ function Dashboard() {
           </div>
         </div>
 
-        {sessions.length === 0 ? (
+        {sessionsLoading ? (
+          <SessionsGridSkeleton />
+        ) : sessions.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center bg-white border border-[#0E1116]/[0.06] rounded-2xl py-16 px-6 mx-4 md:mx-0">
             <span className="w-11 h-11 rounded-lg bg-[#34D399]/10 flex items-center justify-center mb-4">
               <LuSparkles size={20} className="text-[#34D399]" />
@@ -118,6 +146,34 @@ function Dashboard() {
         <div>
           <CreateSessionFrom/>
         </div>
+      </Modal>
+
+      <Modal
+          isOpen ={openDeleteAlert?.open}
+          onClose={()=>{
+            setOpenDeleteAlert({
+              open : false,
+              data:null
+            });
+             
+          }}
+          title="Delete Alert"
+      >
+        <div>
+          <DeleteAlAlertContent
+            content="Are you sure you want to delete this session? This action cannot be undone."
+            onDelete={() => {
+              deleteSession(openDeleteAlert.data);
+            }}
+            onCancel={() => {
+              setOpenDeleteAlert({
+                open: false,
+                data: null,
+              });
+            }}
+          />
+        </div>
+
       </Modal>
     </DashboardLayout>
   );

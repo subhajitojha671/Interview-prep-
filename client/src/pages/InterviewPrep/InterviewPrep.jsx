@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import RoleInfoHeader from "./components/RoleInfoHeader";
 import QuestionCard from "../../components/cards/QuestionCard";
 import Drawer from "../../components/Drawer";
 import SkeletonLoader from "../../components/Loader/SkeletonLoader";
+import SessionPageSkeleton from "../../components/Loader/Sessionsgridskeleton";
 import AIResponsePreview from "./components/AIResponsePreview";
 
 import axiosInstance from "../../utils/axiosInstance";
@@ -143,10 +145,49 @@ const InterviewPrep = () => {
   };
 
 
-  //Add more question to asession 
+  //Add more question to a session 
   const uploadMoreQuestions = async () =>{
+    try{
+      setIsUpdateLoader(true);
+      setErrorMsg("");
 
-  }
+      //call Ai API to generate questions
+      const aiResponse = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_QUESTIONS,
+        {
+          role: sessionData?.role,
+          experience: sessionData?.experience,
+          topicsToFocus: sessionData?.topicToFocus, // backend expects "topicsToFocus" (with an s)
+          numberOfQuestions: 5, 
+        }
+      );
+      // Response shape is { questions: [{question, answer}, ...] }
+      const generatedQuestions = aiResponse.data?.questions;
+
+      const response = await axiosInstance.post(
+        API_PATHS.QUESTION.ADD_TO_SESSION,
+        {
+          sessionId,
+          questions: generatedQuestions,
+        }
+      );
+      if(response.data){
+        toast.success("Added More Q&A !!");
+        fetchSessionDetailsById();
+
+      }
+    }catch(error){
+      console.error(error);
+      if(error.response && error.response.data.message){
+        setErrorMsg(error.response.data.message);
+      }else{
+        setErrorMsg("Something went wrong. Please try again later.");
+      }
+    }finally{
+        setIsUpdateLoader(false);
+    }
+
+  };
 
 
 
@@ -166,14 +207,7 @@ const InterviewPrep = () => {
   if (pageLoading) {
     return (
       <DashboardLayout>
-        <div className="flex items-center justify-center py-20 font-body">
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-8 border-2 border-[#0E1116]/10 border-t-[#34D399] rounded-full animate-spin"></span>
-            <h2 className="font-display text-lg font-medium text-[#0E1116]">
-              Loading...
-            </h2>
-          </div>
-        </div>
+        <SessionPageSkeleton />
       </DashboardLayout>
     );
   }
