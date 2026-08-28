@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import SummaryCard from "../../components/cards/SummaryCard ";
-import SessionsGridSkeleton from "../../components/Loader/SessionsGridSkeleton";
+import SessionsGridSkeleton from "../../components/Loader/Sessionsgridskeleton";
 import { CARD_BG } from "../../utils/data";
 import moment from "moment";
 import CreateSessionFrom from "./CreateSessionFrom";

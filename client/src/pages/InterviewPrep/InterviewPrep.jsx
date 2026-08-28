@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import RoleInfoHeader from "./components/RoleInfoHeader";
+import RoleInfoHeader from "./components/RoleinfoHeader";
 import QuestionCard from "../../components/cards/QuestionCard";
 import Drawer from "../../components/Drawer";
 import SkeletonLoader from "../../components/Loader/SkeletonLoader";

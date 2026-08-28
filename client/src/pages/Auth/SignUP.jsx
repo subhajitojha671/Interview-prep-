@@ -7,7 +7,7 @@ import { validateEmail } from '../../utils/helper';
 import { UserContext } from '../../context/userContext';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
-import uploadImage from "../../utils/uploadImage";
+import uploadImage from "../../utils/uploadimage";
 
 const SignUP = ({ setCurrentPage }) => {
 
