@@ -7,7 +7,7 @@ import { validateEmail } from '../../utils/helper';
 import { UserContext } from '../../context/userContext';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
-import uploadImage from "../../utils/uploadimage";
+import uploadImage from "../../utils/uploadImage";
 
 const SignUP = ({ setCurrentPage }) => {
 
@@ -24,7 +24,7 @@ const SignUP = ({ setCurrentPage }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    let profileImageUrl = ("");
+    let profileImageUrl = "";
 
     if(!fullName){
       setError("Please enter full name.");
@@ -43,16 +43,12 @@ const SignUP = ({ setCurrentPage }) => {
 
     setError("");
 
-    //Sign up API Call
-
-    
-
+    // Sign up API Call
     try {
-
-      //Upload image if present
+      // Upload image if present
       if(profilePic){
-        const imageUploadRea = await uploadImage(profilePic);
-        profileImageUrl = imageUploadRea.imageUrl || "";
+        const imageUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imageUploadRes.imageUrl || "";
       }
 
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER,{
@@ -68,23 +64,15 @@ const SignUP = ({ setCurrentPage }) => {
         localStorage.setItem("token", token);
         updateUser(response.data);
         navigate("/dashboard");
-        
       }
 
-      
-
-      
-
     } catch (error) {
-
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
-
       } else {
         setError("Something went wrong. Please try again.");
       }
     }
-
   };
 
   return (
