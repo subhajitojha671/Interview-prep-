@@ -4,7 +4,7 @@ const {
   submitMockTest,
   getMockTestHistory,
   getMockTestById,
-} = require("../controllers/mockTestController");
+} = require("../controllers/Mocktestcontroller");
 const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();

@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require("@google/genai");
 const { AskAiPrompt } = require("../utills/prompts");
-const AskAiHistory = require("../models/AskAiHistory");
+const AskAiHistory = require("../models/Askaihistory");
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

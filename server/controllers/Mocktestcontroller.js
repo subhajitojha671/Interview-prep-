@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require("@google/genai");
 const { mockTestPrompt } = require("../utills/prompts");
-const MockTestExam = require("../models/MockTestExam");
+const MockTestExam = require("../models/Mocktestexam");
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

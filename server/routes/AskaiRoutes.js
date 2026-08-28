@@ -3,7 +3,7 @@ const {
   askAI,
   getAskAiHistory,
   deleteAskAiHistory,
-} = require("../controllers/askAiController");
+} = require("../controllers/AskaiController");
 const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
